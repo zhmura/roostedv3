@@ -1,0 +1,30 @@
+.FormGroup {
+    margin: 0 15px 0 15px;
+    padding: 0;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #D3D3D3;
+    background-color: #FFFFFF;
+    will-change: opacity, transform;
+    /* box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 #FFFFFF; */
+    border-radius: 4px;
+  }
+  
+  .FormRow {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    margin-left: 15px;
+   
+  }
+  
+  .StripeElement--webkit-autofill {
+    background: transparent !important;
+  }
+  
+  .StripeElement {
+    width: 100%;
+    padding: 8px 15px 8px 0;
+  }

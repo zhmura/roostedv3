@@ -1,0 +1,113 @@
+{
+  "master": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-roostedv3-master-221151-authRole",
+      "UnauthRoleArn": "arn:aws:iam::023451198947:role/amplify-roostedv3-master-221151-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::023451198947:role/amplify-roostedv3-master-221151-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-roostedv3-master-221151-deployment",
+      "UnauthRoleName": "amplify-roostedv3-master-221151-unauthRole",
+      "StackName": "amplify-roostedv3-master-221151",
+      "StackId": "arn:aws:cloudformation:us-west-2:023451198947:stack/amplify-roostedv3-master-221151/3433c220-6032-11ea-8ced-0284c9f60df0",
+      "AmplifyAppId": "dtuj2j3vg7cl3"
+    },
+    "categories": {
+      "function": {
+        "roostedv3authPostConfirmation": {
+          "GROUP": "users"
+        },
+        "roostedv3authPreSignup": {},
+        "roostedV3Transfer": {},
+        "roostedUserMigration": {},
+        "roostedStripeLambda": {},
+        "roostedSendgridLambda": {},
+        "roostedCognitoLambda": {},
+        "roostedMailChimpLambda": {},
+        "roostedSendGridExpiredLicense": {},
+        "roostedSendGridReferralStatusChange": {}
+      },
+      "auth": {
+        "roostedv3auth": {
+          "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"2589888621340182\",\"client_secret\":\"846df4d026068273f58dfa70d2140c3d\"},{\"ProviderName\":\"Google\",\"client_id\":\"137074493391-u7gqrh3nmi7ma2hs3lo84nq4c2nsq85q.apps.googleusercontent.com\",\"client_secret\":\"MY-YYYAsPoLbOr8IOgEw_oWe \"}]",
+          "facebookAppId": "2589888621340182",
+          "googleClientId": "137074493391-u7gqrh3nmi7ma2hs3lo84nq4c2nsq85q.apps.googleusercontent.com"
+        },
+        "userPoolGroups": {}
+      }
+    }
+  },
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-roostedv3-staging-230104-authRole",
+      "UnauthRoleArn": "arn:aws:iam::023451198947:role/amplify-roostedv3-staging-230104-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::023451198947:role/amplify-roostedv3-staging-230104-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-roostedv3-staging-230104-deployment",
+      "UnauthRoleName": "amplify-roostedv3-staging-230104-unauthRole",
+      "StackName": "amplify-roostedv3-staging-230104",
+      "StackId": "arn:aws:cloudformation:us-west-2:023451198947:stack/amplify-roostedv3-staging-230104/09212170-6039-11ea-a826-0a25a13ca77a",
+      "AmplifyAppId": "dtuj2j3vg7cl3"
+    },
+    "categories": {
+      "auth": {
+        "userPoolGroups": {},
+        "roostedv3auth": {
+          "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"1102170470163399\",\"client_secret\":\"9818ad615f4c81047f419bac44ee0a20\"},{\"ProviderName\":\"Google\",\"client_id\":\"137074493391-gqa78qicct8h4oksk3eo8b0i44tov0c3.apps.googleusercontent.com\",\"client_secret\":\"P_5665FtI1cFNXuwVL37M0Cj\"}]",
+          "facebookAppId": "1102170470163399",
+          "googleClientId": "137074493391-gqa78qicct8h4oksk3eo8b0i44tov0c3.apps.googleusercontent.com"
+        }
+      },
+      "function": {
+        "roostedv3authPostConfirmation": {
+          "GROUP": "users"
+        },
+        "roostedv3authPreSignup": {},
+        "roostedStripeLambda": {},
+        "roostedSendgridLambda": {},
+        "roostedCognitoLambda": {},
+        "roostedMailChimpLambda": {},
+        "roostedV3Transfer": {},
+        "roostedUserMigration": {}
+      }
+    }
+  },
+  "roosted": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-roostedv3-roosted-195354-authRole",
+      "UnauthRoleArn": "arn:aws:iam::014597438090:role/amplify-roostedv3-roosted-195354-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::014597438090:role/amplify-roostedv3-roosted-195354-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-roostedv3-roosted-195354-deployment",
+      "UnauthRoleName": "amplify-roostedv3-roosted-195354-unauthRole",
+      "StackName": "amplify-roostedv3-roosted-195354",
+      "StackId": "arn:aws:cloudformation:us-west-2:014597438090:stack/amplify-roostedv3-roosted-195354/7bcb3940-7ccd-11ee-994b-0209df5054d9",
+      "AmplifyAppId": "d1ys6j3ld2olo4"
+    },
+    "categories": {
+      "auth": {
+        "userPoolGroups": {},
+        "roostedv3auth": {
+          "facebookAppId": "none",
+          "googleClientId": "none"
+        }
+      },
+      "function": {
+        "roostedv3authPostConfirmation": {
+          "GROUP": "Admin"
+        },
+        "roostedv3authPreSignup": {},
+        "roostedStripeLambda": {},
+        "roostedSendgridLambda": {},
+        "roostedCognitoLambda": {},
+        "roostedMailChimpLambda": {},
+        "roostedV3Transfer": {},
+        "roostedUserMigration": {},
+        "roostedSendGridExpiredLicense": {},
+        "roostedSendGridReferralStatusChange": {}
+      },
+      "api": {
+        "roostedv3": {}
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "baseUrl": "."
+  },
+  "include": [
+    "src",
+    "amplify/backend/function/roostedRestAPI/src/planFinder.js",
+    "amplify/backend/function/roostedRestAPI/src/app.js"
+  ]
+}

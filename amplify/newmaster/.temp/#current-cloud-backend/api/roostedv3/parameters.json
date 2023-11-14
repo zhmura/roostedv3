@@ -1,0 +1,11 @@
+{
+    "AppSyncApiName": "roostedv3",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": "false",
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authroostedv3auth",
+            "Outputs.UserPoolId"
+        ]
+    }
+}

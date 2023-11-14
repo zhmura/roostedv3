@@ -1,0 +1,200 @@
+type User @model 
+          @key(name: "emailKey", fields: ["email"], queryField: "usersByEmail")
+          @auth(rules: 
+            [{allow: owner, identityClaim: "sub", operations: [create, read, update, delete]},
+            {allow: groups, groups: ["admins"], operations: [create, read, update, delete]},
+            {allow: groups, groups: ["users"], operations: [create, read, update, delete]}]
+            )
+          {
+  id: ID!
+  userFirstName: String
+  userLastName: String
+  email: ID!
+  userPhone: String
+  password: String
+  setupType: String 
+  #setupType: roosted, partner, addedAgent
+  addedAgentComplete: Boolean
+  addedBrokerComplete: Boolean
+  legacyUser: Boolean
+  legacyUserCompleted: Boolean
+  #addedAgentComplete gets switched from false to true on the first login after we recreate certain referrals and users in the DB
+  setupStatus: String
+  #setupStatus: selectType, getLicenseInfo, signICA, transferLicense
+  navBar: String
+  userType: String
+  #userType: user, admin, broker
+  brokerState: String
+  userAddress: Address
+  userRoostedLicenses: [RoostedLicense] @connection(keyName: "userRoostedLicenses", fields: ["id"])
+  userPartnerLicenses: [PartnerLicense] @connection(keyName: "userPartnerLicenses", fields: ["id"])
+  roostedAgent: Roosted
+  partnerAgent: Partner
+  userSignature: String
+  createdAt: String
+  activityLog: ActivityLog
+  userDemographics: Demographics
+  userReferralsCreated: [Referral] @connection(keyName: "referralsCreated", fields: ["id"]) 
+  userReferralsReceived: [Referral] @connection(keyName: "referralsReceived", fields: ["id"]) 
+  userCognitoUsername: String
+  owner: String
+}
+
+type Address {
+  street: String
+  unit: String
+  city: String
+  state: String
+  zip: String
+}
+
+
+type ActivityLog {
+  activity: String
+  activityDate: String
+}
+
+type Demographics {
+  birthday: String
+  yearsInBusiness: Float
+  title: String
+}
+
+type Roosted {
+  stripePaymentIntent: String
+  stripeCustomerSecret: String
+  stripeSubscriptionId: String
+  stripeCustomerId: String
+  stripeProductId: String
+  stripeProductName: String
+  stripeProductPeriod: String
+  stripeState: String
+  stripeCancelReason: String
+  stripeCancelReasonOther: String
+  stripePromoId: String
+}
+
+
+type Partner {
+  partnerSource: String
+  partnerRating: Float
+  partnerAddedAgent: Boolean
+}
+
+type RoostedLicense @model
+                    @key(name: "userRoostedLicenses", fields: ["licenseUserID", "licenseType"])
+                    @auth(rules: [{allow: owner, ownerField: "licenseUserID", identityClaim: "sub"},
+                      {allow: groups, groups: ["admins"], operations: [create, read, update, delete]},
+                      {allow: groups, groups: ["users"], operations: [create, read, update, delete]}]) {
+  id: ID!
+  licenseUserID: ID!
+  licenseUser: User @connection(fields: ["licenseUserID"])
+  licenseNumber: String
+  licenseState: String
+  licenseExpiration: String
+  primaryLicense: Boolean
+  #unverified, verified, waitingOnPayment, waitingOnPolicies, waitingOnICA, waitingOnTransfer, waitingOnRoosted, severed, deleted
+  licenseVerificationStatus: String
+  licenseICAPath: String
+  licensePolicyAndProcedurePath: String
+  licenseType: String
+  createdAt: String
+  activityLog: ActivityLog
+}
+
+type PartnerLicense @model
+                    @key(name: "userPartnerLicenses", fields: ["licenseUserID", "licenseType"])
+                    @auth(rules: [
+                      {allow: owner, ownerField: "licenseUserID", identityClaim: "sub"},
+                      {allow: groups, groups: ["admins"], operations: [create, read, update, delete]},
+                      {allow: groups, groups: ["users"], operations: [create, read, update, delete]}]) {
+  id: ID!
+  licenseUserID: ID!
+  licenseUser: User @connection(fields: ["licenseUserID"])
+  licenseNumber: String
+  licenseState: String
+  licenseExpiration: String
+  primaryLicense: Boolean
+  #nunverified, verified, deleted
+  licenseVerificationStatus: String
+  licenseContractPath: String
+  licenseType: String
+  zipCode: String
+  radius: String
+  lowPrice: String
+  highPrice: String
+  broker: String
+  createdAt: String
+  activityLog: ActivityLog
+}
+
+type Referral  @model
+               @key(name: "referralsCreated", fields: ["referralRoostedAgentID", "createdAt"])
+               @key(name: "referralsReceived", fields: ["referralPartnerAgentID", "createdAt"])
+               @key(name: "clientReferrals", fields: ["referralClientID"])
+               @auth(rules: [
+                {allow: owner, ownerField: "referralRoostedAgentID", identityClaim: "sub", operations: [create, read, update, delete]}, 
+                {allow: owner, ownerField: "referralPartnerAgentID", identityClaim: "sub", operations: [create, read, update, delete]},
+                {allow: groups, groups: ["admins", "users"], operations: [create, read, update, delete]}]) {
+  id: ID!
+  referralRoostedAgentID: ID!
+  referralRoostedAgent: User @connection(fields: ["referralRoostedAgentID"])
+  referralClientID: ID!
+  referralClient: Client @connection(fields: ["referralClientID"])
+  referralState: String
+  referralReferringAgentState: String
+  referralType: String
+  #waitingForAgentAssignment, pending, accepted, rejected, closed, clientLost, deleted 
+  referralStatus: String 
+  #buyers: new, clientContacted, agreementSignedBuyer, touring, underContract, clientLost, closed; sellers: new, clientContacted, agreementSignedSeller, listed, reviewingOffers, underContract, clientLost, closed
+  referralClientStatus: String
+  referralRejectedReason: String
+  referralEstimatedPriceRange: String
+  referralContractValue: Float
+  referralRoostedAgentPayoutFormatted: String
+  referralRoostedAgentPayoutLow: Float
+  referralRoostedAgentPayoutHigh: Float
+  referralRoostedAgentPayoutActual: Float
+  referralPartnerPayoutFormatted: String
+  referralPartnerPayoutLow: Float
+  referralPartnerPayoutHigh: Float
+  referralPartnerPayoutActual: Float
+  referralRoostedPayoutFormatted: String
+  referralRoostedPayoutLow: Float
+  referralRoostedPayoutHigh: Float
+  referralRoostedPayoutActual: Float
+  referralPayoutNotification: Boolean
+  referralEstimatedCloseDate: String
+  referralCloseDate: String
+  referralComments: String
+  initialAgentSelection: String
+  #agentSelects or roostedSelects
+  referralTimeFrame: String
+  referralAddress: Address
+  referralPrequalified: Boolean
+  referralPrequalifiedAmount: Float
+  #stored as non-decimal percent
+  referralFeeOffered: Float
+  #stored as a decimal percent
+  referralCommission: Float
+  referralPartnerAgentID: ID!
+  referralPartnerAgent: User @connection(fields: ["referralPartnerAgentID"])
+  referralContractPath: String
+  referralRoostedPlanOnCreation: String
+  referralRoostedPlanPeriodOnCreation: String
+  referralRoostedPlanProductIdOnCreation: String
+  referralPartnerShareOnCreation: String
+  createdAt: String
+  activityLog: ActivityLog
+}
+
+type Client @model
+            @auth(rules: [{allow: groups, groups: ["admins", "users"], operations: [create, read, update, delete]}]) {
+  id: ID!
+  clientReferralEmail: String!
+  clientReferral: [Referral] @connection(keyName: "clientReferrals", fields: ["id"])
+  clientFirstName: String
+  clientLastName: String
+  clientPhone: String
+  createdAt: String
+}

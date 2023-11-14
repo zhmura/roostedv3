@@ -1,0 +1,15 @@
+//user actions
+export const USER_GET_USER = 'USER_GET_USER';
+export const USER_SET_USER = 'USER_SET_USER';
+export const USER_SET_HASH = 'USER_SET_HASH';
+export const USER_SET_NAVBAR = 'USER_SET_NAVBAR'
+export const USER_NAVBAR_REFRESH = 'USER_NAVBAR_REFRESH'
+export const USER_SET_EMAIL = 'USER_SET_EMAIL'
+
+//referral actions
+export const REFERRAL_SET_REFERRAL = 'REFERRAL_SET_REFERRAL'
+export const REFERRAL_SET_CLIENT = 'REFERRAL_SET_CLIENT'
+
+//license actions
+export const LICENSE_SET_LICENSE = 'LICENSE_SET_LICENSE'
+export const LICENSE_SET_LICENSE_NUMBER = 'LICENSE_SET_LICENSE_NUMBER'

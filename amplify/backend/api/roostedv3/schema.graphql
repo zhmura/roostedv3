@@ -1,0 +1,164 @@
+type User @model @auth(rules: [{allow: owner, identityClaim: "sub", operations: [create, read, update, delete]}, {allow: groups, groups: ["admins"], operations: [create, read, update, delete]}, {allow: groups, groups: ["users"], operations: [create, read, update, delete]}]) {
+  id: ID!
+  userFirstName: String
+  userLastName: String
+  email: ID! @index(name: "emailKey", queryField: "usersByEmail")
+  userPhone: String
+  password: String
+  setupType: String
+  addedAgentComplete: Boolean
+  addedBrokerComplete: Boolean
+  legacyUser: Boolean
+  legacyUserCompleted: Boolean
+  setupStatus: String
+  navBar: String
+  userType: String
+  brokerState: String
+  userAddress: Address
+  userRoostedLicenses: [RoostedLicense] @hasMany(indexName: "userRoostedLicenses", fields: ["id"])
+  userPartnerLicenses: [PartnerLicense] @hasMany(indexName: "userPartnerLicenses", fields: ["id"])
+  roostedAgent: Roosted
+  partnerAgent: Partner
+  userSignature: String
+  createdAt: String
+  activityLog: ActivityLog
+  userDemographics: Demographics
+  userReferralsCreated: [Referral] @hasMany(indexName: "referralsCreated", fields: ["id"])
+  userReferralsReceived: [Referral] @hasMany(indexName: "referralsReceived", fields: ["id"])
+  userCognitoUsername: String
+  owner: String
+}
+
+type Address {
+  street: String
+  unit: String
+  city: String
+  state: String
+  zip: String
+}
+
+type ActivityLog {
+  activity: String
+  activityDate: String
+}
+
+type Demographics {
+  birthday: String
+  yearsInBusiness: Float
+  title: String
+}
+
+type Roosted {
+  stripePaymentIntent: String
+  stripeCustomerSecret: String
+  stripeSubscriptionId: String
+  stripeCustomerId: String
+  stripeProductId: String
+  stripeProductName: String
+  stripeProductPeriod: String
+  stripeState: String
+  stripeCancelReason: String
+  stripeCancelReasonOther: String
+  stripePromoId: String
+}
+
+type Partner {
+  partnerSource: String
+  partnerRating: Float
+  partnerAddedAgent: Boolean
+}
+
+type RoostedLicense @model @auth(rules: [{allow: owner, ownerField: "licenseUserID", identityClaim: "sub"}, {allow: groups, groups: ["admins"], operations: [create, read, update, delete]}, {allow: groups, groups: ["users"], operations: [create, read, update, delete]}]) {
+  id: ID!
+  licenseUserID: ID! @index(name: "userRoostedLicenses", sortKeyFields: ["licenseType"])
+  licenseUser: User @belongsTo(fields: ["licenseUserID"])
+  licenseNumber: String
+  licenseState: String
+  licenseExpiration: String
+  primaryLicense: Boolean
+  licenseVerificationStatus: String
+  licenseICAPath: String
+  licensePolicyAndProcedurePath: String
+  licenseType: String
+  createdAt: String
+  activityLog: ActivityLog
+}
+
+type PartnerLicense @model @auth(rules: [{allow: owner, ownerField: "licenseUserID", identityClaim: "sub"}, {allow: groups, groups: ["admins"], operations: [create, read, update, delete]}, {allow: groups, groups: ["users"], operations: [create, read, update, delete]}]) {
+  id: ID!
+  licenseUserID: ID! @index(name: "userPartnerLicenses", sortKeyFields: ["licenseType"])
+  licenseUser: User @belongsTo(fields: ["licenseUserID"])
+  licenseNumber: String
+  licenseState: String
+  licenseExpiration: String
+  primaryLicense: Boolean
+  licenseVerificationStatus: String
+  licenseContractPath: String
+  licenseType: String
+  zipCode: String
+  radius: String
+  lowPrice: String
+  highPrice: String
+  broker: String
+  createdAt: String
+  activityLog: ActivityLog
+}
+
+type Referral @model @auth(rules: [{allow: owner, ownerField: "referralRoostedAgentID", identityClaim: "sub", operations: [create, read, update, delete]}, {allow: owner, ownerField: "referralPartnerAgentID", identityClaim: "sub", operations: [create, read, update, delete]}, {allow: groups, groups: ["admins", "users"], operations: [create, read, update, delete]}]) {
+  id: ID!
+  referralRoostedAgentID: ID! @index(name: "referralsCreated", sortKeyFields: ["createdAt"])
+  referralRoostedAgent: User @belongsTo(fields: ["referralRoostedAgentID"])
+  referralClientID: ID! @index(name: "clientReferrals")
+  referralClient: Client @belongsTo(fields: ["referralClientID"])
+  referralState: String
+  referralReferringAgentState: String
+  referralType: String
+  referralStatus: String
+  referralClientStatus: String
+  referralRejectedReason: String
+  referralEstimatedPriceRange: String
+  referralContractValue: Float
+  referralRoostedAgentPayoutFormatted: String
+  referralRoostedAgentPayoutLow: Float
+  referralRoostedAgentPayoutHigh: Float
+  referralRoostedAgentPayoutActual: Float
+  referralPartnerPayoutFormatted: String
+  referralPartnerPayoutLow: Float
+  referralPartnerPayoutHigh: Float
+  referralPartnerPayoutActual: Float
+  referralRoostedPayoutFormatted: String
+  referralRoostedPayoutLow: Float
+  referralRoostedPayoutHigh: Float
+  referralRoostedPayoutActual: Float
+  referralPayoutNotification: Boolean
+  referralEstimatedCloseDate: String
+  referralCloseDate: String
+  referralComments: String
+  initialAgentSelection: String
+  referralTimeFrame: String
+  referralAddress: Address
+  referralPrequalified: Boolean
+  referralPrequalifiedAmount: Float
+  referralFeeOffered: Float
+  referralCommission: Float
+  referralPartnerAgentID: ID! @index(name: "referralsReceived", sortKeyFields: ["createdAt"])
+  referralPartnerAgent: User @belongsTo(fields: ["referralPartnerAgentID"])
+  referralContractPath: String
+  referralRoostedPlanOnCreation: String
+  referralRoostedPlanPeriodOnCreation: String
+  referralRoostedPlanProductIdOnCreation: String
+  referralPartnerShareOnCreation: String
+  referralUpdateReminder: Boolean
+  createdAt: String
+  activityLog: ActivityLog
+}
+
+type Client @model @auth(rules: [{allow: groups, groups: ["admins", "users"]}]) {
+  id: ID!
+  clientReferralEmail: String!
+  clientReferral: [Referral] @hasMany(indexName: "clientReferrals", fields: ["id"])
+  clientFirstName: String
+  clientLastName: String
+  clientPhone: String
+  createdAt: String
+}

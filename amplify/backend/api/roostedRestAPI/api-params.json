@@ -1,0 +1,180 @@
+{
+    "paths": [
+        {
+            "name": "/stripe",
+            "lambdaFunction": "roostedStripeLambda",
+            "privacy": {
+                "private": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH",
+                    "/DELETE"
+                ]
+            }
+        },
+        {
+            "name": "/sendgrid",
+            "lambdaFunction": "roostedSendgridLambda",
+            "privacy": {
+                "private": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH",
+                    "/DELETE"
+                ]
+            }
+        },
+        {
+            "name": "/users",
+            "lambdaFunction": "roostedCognitoLambda",
+            "privacy": {
+                "private": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH",
+                    "/DELETE"
+                ]
+            }
+        },
+        {
+            "name": "/mailchimp",
+            "lambdaFunction": "roostedMailChimpLambda",
+            "privacy": {
+                "private": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH",
+                    "/DELETE"
+                ]
+            }
+        },
+        {
+            "name": "/transfer",
+            "lambdaFunction": "roostedV3Transfer",
+            "privacy": {
+                "private": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH",
+                    "/DELETE"
+                ],
+                "userPoolGroups": {
+                    "admins": [
+                        "/POST",
+                        "/GET",
+                        "/PUT",
+                        "/PATCH",
+                        "/DELETE"
+                    ],
+                    "users": [
+                        "/POST",
+                        "/GET",
+                        "/PUT",
+                        "/PATCH",
+                        "/DELETE"
+                    ]
+                }
+            }
+        }
+    ],
+    "resourceName": "roostedRestAPI",
+    "apiName": "roostedRestAPI",
+    "functionArns": [
+        {
+            "lambdaFunction": "roostedStripeLambda"
+        },
+        {
+            "lambdaFunction": "roostedSendgridLambda"
+        },
+        {
+            "lambdaFunction": "roostedCognitoLambda"
+        },
+        {
+            "lambdaFunction": "roostedMailChimpLambda"
+        },
+        {
+            "lambdaFunction": "roostedV3Transfer"
+        }
+    ],
+    "privacy": {
+        "auth": 5,
+        "unauth": 0,
+        "authRoleName": "amplify-roostedv3-staging-230104-authRole",
+        "unAuthRoleName": "amplify-roostedv3-staging-230104-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "roostedStripeLambda",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        },
+        {
+            "category": "function",
+            "resourceName": "roostedSendgridLambda",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        },
+        {
+            "category": "function",
+            "resourceName": "roostedCognitoLambda",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        },
+        {
+            "category": "function",
+            "resourceName": "roostedMailChimpLambda",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        },
+        {
+            "category": "function",
+            "resourceName": "roostedV3Transfer",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        },
+        {
+            "category": "auth",
+            "resourceName": "roostedv3auth",
+            "attributes": [
+                "UserPoolId"
+            ]
+        },
+        {
+            "category": "auth",
+            "resourceName": "userPoolGroups",
+            "attributes": [
+                "adminsGroupRole"
+            ]
+        },
+        {
+            "category": "auth",
+            "resourceName": "userPoolGroups",
+            "attributes": [
+                "usersGroupRole"
+            ]
+        }
+    ],
+    "uuid": "d7f5c1d1",
+    "authResourceName": "roostedv3auth"
+}
